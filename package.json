@@ -2,10 +2,16 @@
   "name": "solar-panel-inverter-monitor",
   "version": "1.0.0",
   "description": "Monitor a solar panel inverter and display stats",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Anthony Shaw",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "edge-js": "^9.3.5",
+    "nconf": "^0.10.0",
+    "terminal-kit": "^1.15.1",
+    "xml2js-parser": "^1.1.1"
+  }
 }
