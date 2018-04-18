@@ -1,0 +1,11 @@
+{
+  "name": "solar-panel-inverter-monitor",
+  "version": "1.0.0",
+  "description": "Monitor a solar panel inverter and display stats",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anthony Shaw",
+  "license": "MIT"
+}
