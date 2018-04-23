@@ -50,12 +50,14 @@ function httpXMLRequest(params, postData) {
 }
 
 function update() {
-  httpXMLRequest({host: 'enasolar-gt', method: 'GET', path: '/meters.xml'}).then(function(xml) {
+  httpXMLRequest({host: 'enasolar-gt', method: 'GET', path: '/meters.xml'})
+  .then(function(xml) {
     status.current.outputPower = (xml.response.OutputPower * 1.0).toFixed(3);
     status.current.inputVoltage = ((xml.response.InputVoltage * 1.0) + (xml.response.InputVoltage2 * 1.0)).toFixed(1);
     status.current.outputVoltage = (xml.response.OutputVoltage * 1.0).toFixed(1);
     status.generating = !(status.current.outputPower == 0);
-    httpXMLRequest({host: 'enasolar-gt', method: 'GET', path: '/data.xml'}).then(function(xml) {
+    httpXMLRequest({host: 'enasolar-gt', method: 'GET', path: '/data.xml'})
+    .then(function(xml) {
       status.current.energyToday = (parseInt(xml.response.EnergyToday, 16) / 100.0).toFixed(2);
       status.current.hoursToday = Math.floor(xml.response.HoursExportedToday / 60);
       status.current.minutesToday = xml.response.HoursExportedToday % 60;
@@ -105,7 +107,15 @@ function update() {
       terminal.moveTo(16, 7, "Yesterday %skWh %sh %sm", status.current.energyYesterday.padStart(10), String(status.current.hoursYesterday).padStart(6), String(status.current.minutesYesterday).padStart(2));
       terminal.moveTo(17, 8, "Lifetime %skWh %sh %sm", status.current.energyLifetime.padStart(10), String(status.current.hoursLifetime).padStart(6), String(status.current.minutesLifetime).padStart(2));
       terminal.moveTo(1, 10, "Average daily production %skWh %s days", status.current.averageDailyProduction.padStart(10), String(status.current.daysProducing).padStart(6));
+    })
+    .catch(function(error) {
+      terminal.clear();
+      terminal.brightRed(error);
     });
+  })
+  .catch(function(error) {
+    terminal.clear();
+    terminal.brightRed(error);
   });
 
   setTimeout(update, updatePeriod * 1000);
