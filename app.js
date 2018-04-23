@@ -17,7 +17,7 @@ const play = edge.func(function() {/*
 
 let updatePeriod = config.get('updatePeriod');
 
-let status = { last: {}, current: {} };
+let status = { requestFailures: 0, last: {}, current: {} };
 
 function httpXMLRequest(params, postData) {
   return new Promise(function(resolve, reject) {
@@ -107,13 +107,18 @@ function update() {
       terminal.moveTo(16, 7, "Yesterday %skWh %sh %sm", status.current.energyYesterday.padStart(10), String(status.current.hoursYesterday).padStart(6), String(status.current.minutesYesterday).padStart(2));
       terminal.moveTo(17, 8, "Lifetime %skWh %sh %sm", status.current.energyLifetime.padStart(10), String(status.current.hoursLifetime).padStart(6), String(status.current.minutesLifetime).padStart(2));
       terminal.moveTo(1, 10, "Average daily production %skWh %s days", status.current.averageDailyProduction.padStart(10), String(status.current.daysProducing).padStart(6));
+      if (status.requestFailures > 0) {
+        terminal.brightRed().moveTo(1, 12, "Request failures %d", status.requestFailures)
+      }
     })
     .catch(function(error) {
+      status.requestFailures++;
       terminal.clear();
       terminal.brightRed(error);
     });
   })
   .catch(function(error) {
+    status.requestFailures++;
     terminal.clear();
     terminal.brightRed(error);
   });
