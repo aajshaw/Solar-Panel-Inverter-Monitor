@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "edge-js": "^9.3.5",
-    "nconf": "^0.10.0",
+    "nconf": "^0.11.4",
     "terminal-kit": "^1.15.1",
     "xml2js-parser": "^1.1.1"
   }
